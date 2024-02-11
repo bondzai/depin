@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  bitcoin:
+    image: kylemanna/bitcoind:latest
+    ports:
+      - "8333:8333"
+    volumes:
+      - ./bitcoin:/root/.bitcoin
+
+  lnd:
+    build: .
+    ports:
+      - "9735:9735"
+      - "10009:10009"
+    depends_on:
+      - bitcoin
+    environment:
+      - BITCOIN_NODE=bitcoin
+      - BITCOIN_RPCUSER=rpcuser
+      - BITCOIN_RPCPASS=rpcpass
